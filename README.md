@@ -32,7 +32,11 @@ app-config.json # восстановленный рабочий конфиг
  README.md # этот файл  
 
 ## История коммитов
-git log --oneline
+```
+cf70c3d Add .gitignore to protect against Koschey's files
+84706c6 Recovery: restored working config from backup
+d1b186b Initial: damaged config from Koschey
+```
 
 # Личные файлы Кощея - чтобы больше не портил наш код!
 koschey-*
