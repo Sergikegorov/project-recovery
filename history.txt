@@ -1,0 +1,70 @@
+  157  git ini
+  158  git init
+  159  cat > app-config.json << 'EOF'
+{
+  "app_name": "Три Топора",
+  "status": "broken",
+  "database": "disconnected",
+  "payments": false,
+  "magic": {
+    "rivers": "backwards",
+    "clouds": "down",
+    "battery": "5_minutes"
+  }
+}
+EOF
+
+  160  cat app-config.json
+  161  git add app-config.json
+  162  git commit -m "Initial: damaged config from Koschey"
+  163  git rm app-config.json
+  164  cat > backup-config.json << 'EOF'
+{
+  "app_name": "Три Топора",
+  "status": "working",
+  "database": "connected",
+  "payments": true,
+  "magic": {
+    "rivers": "normal",
+    "clouds": "up",
+    "battery": "all_day_long"
+  }
+}
+EOF
+
+  165  git add backup-config.json
+  166  git add app-config.json 2>/dev/null || true
+  167  git add backup-config.json
+  168  git mv backup-config.json app-config.json
+  169  git commit -m "Recovery: restored working config from backup"
+  170  ls -la
+  171  cat app-config.json
+  172  git diff HEAD~1 HEAD
+  173  git log --oneline
+  174  git checkout HEAD~1 -- app-config.json
+  175  cat app-config.json
+  176  git checkout HEAD -- app-config.json
+  177  cat app-config.json
+  178  git show HEAD~1:app-config.json
+  179  # Создаём .gitignore
+  180  cat > .gitignore << 'EOF'
+# Временные файлы системы
+*.tmp
+
+# Файлы логов (много места, не нужны в репозитории)
+*.log
+
+# Конфигурационные файлы с секретами и паролями
+secret-*
+
+# Личные файлы Кощея - чтобы больше не портил наш код!
+koschey-*
+EOF
+
+  181  # Добавляем и коммитим
+  182  git add .gitignore
+  183  git commit -m "Add .gitignore to protect against Koschey's files"
+  184  git remote add origin https://github.com/Sergikegorov/project-recovery.git
+  185  git push -u origin main
+  186  git log --oneline
+  187  history > history.txt
